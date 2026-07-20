@@ -1,0 +1,12 @@
+{
+  "name": "matrix-business-systems-site",
+  "private": true,
+  "scripts": {
+    "verify": "node scripts/verify-site.mjs",
+    "build": "node scripts/build.mjs",
+    "deploy": "npm run build && wrangler deploy"
+  },
+  "devDependencies": {
+    "wrangler": "^4.112.0"
+  }
+}
