@@ -41,5 +41,6 @@ Included:
 Before domain cutover:
 - Review in current Chrome, Edge, Firefox, Safari
 - Review on desktop, tablet, iPhone, Android
-- Confirm final contact details
 - Add a final social-sharing image when available
+- Preserve the existing Wix payment experience before moving matrixbusiness.biz to Cloudflare. Recommended: connect a subdomain such as account.matrixbusiness.biz to the Wix site, confirm its /my-account payment page works, then link the new Matrix site to that final URL.
+- The new contact page uses the currently published business details: contact@matrixbusiness.biz, 402-438-8030, Lincoln, Nebraska, Monday-Friday 8am-5pm Central.

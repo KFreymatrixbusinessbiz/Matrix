@@ -1374,6 +1374,25 @@ html:has(link[rel="canonical"][href$="/copiers-multifunction.html"]) .solution-h
 .one-question-layout li{margin-bottom:12px}
 @media(max-width:760px){.perspective-principle-grid,.perspective-statement,.one-question-layout{grid-template-columns:1fr}.perspective-principle-grid article{min-height:auto}.perspective-statement>div,.one-question-layout>div{border-left:0;border-top:1px solid rgba(31,42,39,.22);padding:28px 0 0}.one-question-layout>div{border-color:rgba(255,255,255,.24)}}
 
+/* Contact: public details preserved from the existing Matrix site. */
+.contact-page{min-height:100vh;background:#f4f0e8;color:var(--ink)}
+.contact-main{padding-top:96px}
+.contact-intro{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(320px,.75fr);gap:clamp(42px,7vw,110px);align-items:end;padding:clamp(72px,9vw,130px) 8vw}
+.contact-intro h1{max-width:1000px;margin:12px 0 0;font-family:var(--serif);font-size:clamp(52px,7vw,108px);font-weight:400;line-height:.92;letter-spacing:-.035em}
+.contact-intro>p{max-width:600px;margin:0;padding-left:clamp(24px,4vw,52px);border-left:1px solid var(--line);font-size:clamp(18px,1.45vw,23px);line-height:1.6}
+.contact-options{display:grid;grid-template-columns:repeat(3,1fr);margin:0 8vw;border-top:1px solid var(--line);border-left:1px solid var(--line)}
+.contact-options>a,.contact-options>div{min-height:260px;padding:clamp(28px,3.4vw,48px);border-right:1px solid var(--line);border-bottom:1px solid var(--line);color:inherit;text-decoration:none}
+.contact-options span{display:block;color:var(--wine);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
+.contact-options strong{display:block;margin:54px 0 18px;font-family:var(--serif);font-size:clamp(27px,2.6vw,40px);font-weight:400;line-height:1.05;overflow-wrap:anywhere}
+.contact-options small{display:block;max-width:390px;color:var(--ink-soft);font-size:15px;line-height:1.55}
+.contact-options>a:hover,.contact-options>a:focus-visible{background:#fff;outline:none}
+.contact-prompt{margin-top:clamp(70px,9vw,130px);padding:clamp(72px,9vw,130px) 8vw;background:#1b292e;color:#fff}
+.contact-prompt h2{max-width:1050px;margin:14px 0 28px;font-size:clamp(42px,6vw,86px);line-height:.96}
+.contact-prompt>p:not(.solution-eyebrow){max-width:720px;color:#d4d8d7;font-size:18px;line-height:1.65}
+.contact-prompt .text-link{color:#fff}
+@media(max-width:900px){.contact-intro{grid-template-columns:1fr}.contact-intro>p{padding:28px 0 0;border-left:0;border-top:1px solid var(--line)}.contact-options{grid-template-columns:1fr}.contact-options>a,.contact-options>div{min-height:auto}.contact-options strong{margin-top:30px}}
+@media(max-width:620px){.contact-main{padding-top:76px}.contact-intro,.contact-prompt{padding-left:24px;padding-right:24px}.contact-options{margin-left:24px;margin-right:24px}}
+
 /* Global opening alignment: keep every page introduction close to the navigation. */
 .solution-page .solution-hero{
   align-items:flex-start!important;
