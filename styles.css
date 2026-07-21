@@ -1396,7 +1396,7 @@ html:has(link[rel="canonical"][href$="/copiers-multifunction.html"]) .solution-h
 /* Global opening alignment: keep every page introduction close to the navigation. */
 .solution-page .solution-hero{
   align-items:flex-start!important;
-  padding-top:130px!important;
+  padding-top:56px!important;
 }
 .solution-page .solution-hero>div{
   margin:0 auto!important;
@@ -1416,12 +1416,12 @@ html:has(link[rel="canonical"][href$="/copiers-multifunction.html"]) .solution-h
 }
 @media(max-width:900px){
   .solution-page .solution-hero{
-    padding-top:150px!important;
+    padding-top:72px!important;
   }
 }
 @media(max-width:620px){
   .solution-page .solution-hero{
-    padding-top:146px!important;
+    padding-top:56px!important;
   }
   .subpage{
     padding-top:100px;
