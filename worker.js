@@ -7,9 +7,6 @@ const JSON_HEADERS = {
 const MAX_BODY_BYTES = 16_384;
 const MIN_COMPLETION_MS = 2_500;
 const MAX_COMPLETION_MS = 86_400_000;
-const FIELD_CACHE_MS = 3_600_000;
-const fieldCache = new Map();
-
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
@@ -99,32 +96,12 @@ async function handleInquiry(request, env) {
   }
 }
 
-async function resolveInquiryFieldKeys(env) {
-  const cached = fieldCache.get(env.WIX_SITE_ID);
-  if (cached && Date.now() - cached.savedAt < FIELD_CACHE_MS) return cached.keys;
-
-  const response = await fetch("https://www.wixapis.com/contacts/v4/extended-fields", {
-    headers: wixHeaders(env)
-  });
-  if (!response.ok) {
-    throw new Error(`Wix extended fields request returned ${response.status}.`);
-  }
-
-  const result = await response.json();
-  const fields = result.extendedFields || [];
-  const byName = new Map(
-    fields.map((field) => [String(field.displayName || "").trim().toLowerCase(), field.key])
-  );
-  const keys = {
-    topic: byName.get("inquiry topic"),
-    message: byName.get("inquiry message"),
-    source: byName.get("inquiry source")
+async function resolveInquiryFieldKeys() {
+  return {
+    topic: "custom.inquiry-topic",
+    message: "custom.inquiry-message",
+    source: "custom.inquiry-source"
   };
-  if (!keys.topic || !keys.message || !keys.source) {
-    throw new Error("One or more Matrix inquiry fields are missing in Wix Contacts.");
-  }
-  fieldCache.set(env.WIX_SITE_ID, { keys, savedAt: Date.now() });
-  return keys;
 }
 
 function wixHeaders(env, jsonBody = false) {
@@ -198,3 +175,4 @@ function deliveryError() {
 function json(payload, status = 200) {
   return new Response(JSON.stringify(payload), { status, headers: JSON_HEADERS });
 }
+
