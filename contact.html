@@ -57,15 +57,43 @@
       </div>
     </section>
 
-    <section class="contact-prompt">
-      <p class="solution-eyebrow">A Useful Starting Point</p>
-      <h2>What must the technology allow people to keep doing?</h2>
-      <p>You do not need a finished specification. Bring the workload, locations, users, current limitations, security requirements, or equipment you are considering. We will help organize the decision.</p>
-      <div class="solution-actions">
-        <a class="solution-button" href="mailto:contact@matrixbusiness.biz?subject=Start%20a%20Matrix%20discussion">Email Matrix</a>
+    <section class="contact-prompt contact-discussion">
+      <div class="contact-discussion-copy">
+        <p class="solution-eyebrow">A Useful Starting Point</p>
+        <h2>What must the technology allow people to keep doing?</h2>
+        <p>You do not need a finished specification. Bring the workload, locations, users, current limitations, security requirements, or equipment you are considering. We will help organize the decision.</p>
         <a class="text-link" href="how-we-work.html">See how Matrix works →</a>
       </div>
+      <form class="discussion-form" id="discussion-form" novalidate>
+        <div class="form-grid">
+          <label>Name<input name="name" autocomplete="name" maxlength="120" required></label>
+          <label>Work email<input name="email" type="email" autocomplete="email" maxlength="254" required></label>
+          <label>Phone <small>Optional</small><input name="phone" type="tel" autocomplete="tel" maxlength="40"></label>
+          <label>Organization <small>Optional</small><input name="organization" autocomplete="organization" maxlength="160"></label>
+        </div>
+        <label>What would you like to discuss?
+          <select name="topic" required>
+            <option value="">Select a starting point</option>
+            <option>Copier or printer purchase</option>
+            <option>Workplace technology</option>
+            <option>Operational continuity</option>
+            <option>Security or compliance</option>
+            <option>InPower operating model</option>
+            <option>Something else</option>
+          </select>
+        </label>
+        <label>What are you trying to accomplish?
+          <textarea name="message" rows="6" minlength="20" maxlength="2500" required></textarea>
+        </label>
+        <label class="form-honeypot" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off"></label>
+        <input name="startedAt" type="hidden">
+        <div class="form-submit-row">
+          <button class="solution-button" type="submit">Start the Discussion</button>
+          <p class="form-status" id="form-status" aria-live="polite"></p>
+        </div>
+      </form>
     </section>
   </main>
+  <script src="contact-form.js" defer></script>
 </body>
 </html>

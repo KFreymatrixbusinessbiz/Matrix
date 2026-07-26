@@ -1390,8 +1390,27 @@ html:has(link[rel="canonical"][href$="/copiers-multifunction.html"]) .solution-h
 .contact-prompt h2{max-width:1050px;margin:14px 0 28px;font-size:clamp(42px,6vw,86px);line-height:.96}
 .contact-prompt>p:not(.solution-eyebrow){max-width:720px;color:#d4d8d7;font-size:18px;line-height:1.65}
 .contact-prompt .text-link{color:#fff}
+.contact-discussion{display:grid;grid-template-columns:minmax(0,.85fr) minmax(460px,1.15fr);gap:clamp(48px,8vw,130px);align-items:start}
+.contact-discussion-copy h2{font-size:clamp(42px,5vw,76px)}
+.contact-discussion-copy>p:not(.solution-eyebrow){color:#d4d8d7;font-size:18px;line-height:1.65}
+.discussion-form{display:grid;gap:24px;padding:clamp(26px,3vw,44px);border:1px solid rgba(255,255,255,.25);background:#223237}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.discussion-form label{display:grid;gap:9px;color:#fff;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+.discussion-form label small{color:#aeb7b5;font:inherit;font-weight:400;letter-spacing:.08em}
+.discussion-form input,.discussion-form select,.discussion-form textarea{width:100%;border:1px solid rgba(255,255,255,.25);border-radius:0;padding:14px 15px;background:#182429;color:#fff;font:400 16px/1.4 var(--sans);letter-spacing:0;text-transform:none}
+.discussion-form textarea{resize:vertical}
+.discussion-form input:focus,.discussion-form select:focus,.discussion-form textarea:focus{outline:2px solid #d7b66f;outline-offset:2px}
+.discussion-form .form-honeypot{position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden}
+.form-submit-row{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.discussion-form button{cursor:pointer}
+.discussion-form button:disabled{cursor:wait;opacity:.65}
+.form-status{margin:0;color:#d4d8d7;font-size:14px;line-height:1.5}
+.form-status[data-state="success"]{color:#d7b66f}
+.form-status[data-state="error"]{color:#ffd2ca}
 @media(max-width:900px){.contact-intro{grid-template-columns:1fr}.contact-intro>p{padding:28px 0 0;border-left:0;border-top:1px solid var(--line)}.contact-options{grid-template-columns:1fr}.contact-options>a,.contact-options>div{min-height:auto}.contact-options strong{margin-top:30px}}
+@media(max-width:900px){.contact-discussion{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:620px){.contact-main{padding-top:76px}.contact-intro,.contact-prompt{padding-left:24px;padding-right:24px}.contact-options{margin-left:24px;margin-right:24px}}
+@media(max-width:620px){.form-grid{grid-template-columns:1fr}.discussion-form{padding:22px}}
 
 /* Global opening alignment: keep every page introduction close to the navigation. */
 .solution-page .solution-hero{
