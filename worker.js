@@ -79,7 +79,7 @@ async function handleInquiry(request, env) {
   };
 
   try {
-    const wixResponse = await fetch("https://www.wixapis.com/v4/contacts", {
+    const wixResponse = await fetch("https://www.wixapis.com/contacts/v4/contacts", {
       method: "POST",
       headers: wixHeaders(env, true),
       body: JSON.stringify({ info, allowDuplicates: true })
@@ -175,4 +175,3 @@ function deliveryError() {
 function json(payload, status = 200) {
   return new Response(JSON.stringify(payload), { status, headers: JSON_HEADERS });
 }
-
