@@ -3,6 +3,7 @@
   "name": "matrix",
   "compatibility_date": "2026-07-20",
   "main": "./worker.js",
+   "keep_vars": true,
   "vars": {
     "WIX_SITE_ID": "11d3f5bd-efda-4bb6-ad57-5f0b4151e3d6"
   },
