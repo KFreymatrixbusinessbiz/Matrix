@@ -1460,3 +1460,75 @@ html:has(link[rel="canonical"][href$="/copiers-multifunction.html"]) .solution-h
 .evidence-sprinkle-grid a:hover strong,.evidence-sprinkle-grid a:focus-visible strong{color:#d7b66f}
 .evidence-sprinkle-grid a:hover span,.evidence-sprinkle-grid a:focus-visible span{color:#d4d8d7}
 @media(max-width:760px){.evidence-sprinkle-heading,.evidence-sprinkle-grid,.evidence-sprinkle-grid.two-up{grid-template-columns:1fr}.evidence-sprinkle-grid a{min-height:auto}}
+
+/* Continuous editorial flow
+   Preserve the room compositions while restoring native website behavior. */
+.home-page,
+.chapter-page{overflow-x:hidden!important;overflow-y:auto!important}
+.home-page .room-stage,
+.chapter-page .chapter-stage{position:relative!important;inset:auto!important;height:auto!important;max-height:none!important}
+.home-page .room,
+.chapter-page .chapter-room{position:relative!important;inset:auto!important;height:auto!important;max-height:none!important;min-height:92svh;opacity:1!important;visibility:visible!important;pointer-events:auto!important;overflow:clip!important;scroll-margin-top:76px}
+.home-page .room[hidden],
+.chapter-page .chapter-room[hidden]{display:inherit!important}
+.home-page .hero-room{min-height:100svh}
+.home-page .hero-content{height:auto!important;min-height:100svh;padding-top:clamp(132px,16vh,180px)!important;padding-bottom:clamp(72px,10vh,120px)}
+.home-page .hero-content.service-principle-hero h1{max-width:15ch;font-size:clamp(44px,5.35vw,78px)!important;line-height:1!important;letter-spacing:-.045em}
+.home-page .hero-content.service-principle-hero>p:last-child{max-width:620px;font-size:clamp(17px,1.2vw,20px);line-height:1.65}
+.home-page .path-room{min-height:88svh;padding-top:clamp(112px,12vh,150px)!important;padding-bottom:clamp(72px,10vh,120px)!important}
+.home-page .path-intro h2{font-size:clamp(38px,4.5vw,64px)!important;line-height:1.04}
+.home-page .path-card h3{font-size:clamp(27px,2.6vw,40px)!important;line-height:1.08}
+.home-page .explore-room{min-height:auto}
+.home-page .explore-grid-clean{min-height:calc(100svh - 76px)}
+.home-page .explore-primary h2{font-size:clamp(42px,5vw,72px)!important;line-height:1.02}
+.home-page .explore-secondary .explore-panel h2{font-size:clamp(30px,3.1vw,46px)!important;line-height:1.04}
+.chapter-page .chapter-opening{min-height:92svh}
+.chapter-page .chapter-opening h1,
+.chapter-page .learned-opening h1,
+.chapter-page .technology-opening h1{font-size:clamp(52px,7.2vw,104px)!important;line-height:.98!important}
+.chapter-page .practice-copy h2,
+.chapter-page .technology-copy h2,
+.chapter-page .learned-statement h2,
+.chapter-page .learned-close h2,
+.chapter-page .chapter-close h2{font-size:clamp(44px,5.4vw,78px)!important;line-height:1.02!important}
+.chapter-page .practice-room,
+.chapter-page .learned-statement,
+.chapter-page .learned-split,
+.chapter-page .chapter-close{min-height:88svh}
+.chapter-page .practice-copy,
+.chapter-page .technology-copy,
+.chapter-page .learned-text{padding-top:clamp(122px,15vh,170px)!important;padding-bottom:clamp(68px,9vh,110px)!important}
+.chapter-page .practice-copy p,
+.chapter-page .technology-copy p,
+.chapter-page .learned-text p{max-width:680px}
+@media(max-height:820px) and (min-width:621px){
+  .home-page .hero-content{padding-top:118px!important;padding-bottom:64px}
+  .home-page .hero-content.service-principle-hero h1{font-size:clamp(40px,5vw,68px)!important}
+  .home-page .path-room{padding-top:108px!important;padding-bottom:64px!important}
+  .chapter-page .practice-copy,.chapter-page .technology-copy,.chapter-page .learned-text{padding-top:112px!important;padding-bottom:64px!important}
+}
+@media(max-width:900px){
+  .home-page .path-room{grid-template-columns:1fr!important;gap:42px}
+  .home-page .explore-grid-clean{min-height:auto}
+  .chapter-page .chapter-room{min-height:auto}
+  .chapter-page .chapter-opening{min-height:78svh}
+}
+@media(max-width:620px){
+  .home-page .room,.chapter-page .chapter-room{min-height:auto;scroll-margin-top:68px}
+  .home-page .hero-room{min-height:92svh}
+  .home-page .hero-content{min-height:92svh;padding:112px 0 68px!important}
+  .home-page .hero-content.service-principle-hero h1{font-size:clamp(40px,11.5vw,54px)!important;line-height:1.02!important}
+  .home-page .hero-content.service-principle-hero>p:last-child{font-size:16px;line-height:1.58}
+  .home-page .path-room{padding:92px 21px 72px!important}
+  .home-page .path-intro h2{font-size:clamp(34px,10vw,46px)!important}
+  .home-page .path-card{min-height:auto!important;padding:28px 24px!important}
+  .home-page .path-card h3{font-size:30px!important}
+  .home-page .explore-grid-clean{display:block!important;overflow:visible!important}
+  .home-page .explore-panel{min-height:300px!important;padding:38px 24px!important}
+  .home-page .explore-primary h2,.home-page .explore-secondary .explore-panel h2{font-size:clamp(34px,10vw,44px)!important}
+  .home-page .site-footer{position:relative!important}
+  .chapter-page .chapter-opening{min-height:76svh;padding:110px 18px 70px}
+  .chapter-page .chapter-opening h1,.chapter-page .learned-opening h1,.chapter-page .technology-opening h1{font-size:clamp(44px,13vw,62px)!important}
+  .chapter-page .practice-copy,.chapter-page .technology-copy,.chapter-page .learned-text{padding:104px 20px 72px!important;margin-left:0!important;width:100%!important}
+  .chapter-page .practice-copy h2,.chapter-page .technology-copy h2,.chapter-page .learned-statement h2,.chapter-page .learned-close h2,.chapter-page .chapter-close h2{font-size:clamp(38px,11vw,52px)!important}
+}
