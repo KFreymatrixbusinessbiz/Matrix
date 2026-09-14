@@ -1704,3 +1704,69 @@ html:has(link[rel="canonical"][href$="/copiers-multifunction.html"]) .solution-h
   .matrix-ip-copy{padding-top:26px}
   .matrix-inpower-panel{padding:30px 24px}
 }
+
+
+/* Phase 3B: restrained institutional trust architecture */
+.matrix-trust-room{
+  display:grid;
+  grid-template-columns:minmax(240px,.62fr) minmax(0,1.38fr);
+  gap:clamp(48px,8vw,130px);
+  align-items:center;
+  min-height:72svh!important;
+  padding:clamp(96px,11vw,150px) clamp(24px,8vw,130px);
+  background:#e5ded2;
+  color:var(--ink);
+}
+.matrix-trust-marker{align-self:stretch;display:flex;flex-direction:column;justify-content:center;border-right:1px solid var(--brass);padding-right:clamp(24px,4vw,54px)}
+.matrix-trust-marker span{max-width:260px;color:var(--ink-soft);font-size:.82rem;line-height:1.6}
+.matrix-trust-copy{max-width:880px}
+.matrix-trust-copy h2{max-width:12ch;margin:0 0 28px;font-family:var(--serif);font-size:clamp(42px,5.2vw,74px);font-weight:400;line-height:1;letter-spacing:-.045em}
+.matrix-trust-copy p{max-width:700px;margin:0;color:#3f3c37;font-size:clamp(17px,1.25vw,20px);line-height:1.7}
+.matrix-trust-copy a{display:inline-flex;gap:18px;margin-top:30px;padding-bottom:7px;border-bottom:1px solid var(--brass);font-size:.75rem;font-weight:700;letter-spacing:.1em;text-decoration:none;text-transform:uppercase}
+.matrix-trust-copy a span{color:var(--wine)}
+.trust-page{background:#f4f0e8}
+.trust-hero h1{max-width:13ch}
+.trust-identity{background:#ebe5da}
+.trust-heading{display:grid;grid-template-columns:.55fr 1.45fr;gap:clamp(36px,7vw,110px);align-items:start;margin-bottom:clamp(48px,6vw,80px)}
+.trust-heading h2{margin:0}
+.trust-facts{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line);border-left:1px solid var(--line)}
+.trust-facts>div{min-height:230px;padding:clamp(26px,3vw,42px);border-right:1px solid var(--line);border-bottom:1px solid var(--line);background:#f7f4ee}
+.trust-facts span{display:block;color:var(--wine);font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
+.trust-facts strong{display:block;margin-top:38px;font-family:var(--serif);font-size:clamp(23px,2.1vw,32px);font-weight:400;line-height:1.2;overflow-wrap:anywhere}
+.trust-facts strong a{text-decoration-thickness:1px;text-underline-offset:5px}
+.trust-facts small{display:block;margin-top:16px;color:var(--ink-soft);font-size:.76rem;line-height:1.55}
+.trust-responsibility{background:#17272c;color:#fff}
+.trust-split{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(46px,8vw,130px);align-items:start}
+.trust-split h2{max-width:12ch;margin:16px 0 0;color:inherit}
+.trust-prose{padding-top:30px;border-top:1px solid rgba(17,17,15,.2)}
+.trust-responsibility .trust-prose{border-color:rgba(255,255,255,.24)}
+.trust-prose p{max-width:740px;margin:0 0 22px;color:var(--ink-soft);font-size:clamp(17px,1.25vw,20px);line-height:1.7}
+.trust-responsibility .trust-prose p{color:#d4d8d7}
+.trust-responsibility .trust-prose strong{color:#fff}
+.trust-method{background:#f7f4ee}
+.trust-method>div>h2{margin:12px 0 clamp(42px,6vw,72px)}
+.trust-method-grid{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line);border-left:1px solid var(--line)}
+.trust-method-grid article{min-height:300px;padding:clamp(26px,3vw,42px);border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+.trust-method-grid span{color:var(--brass-dark);font-size:.68rem;font-weight:700;letter-spacing:.16em}
+.trust-method-grid h3{margin:46px 0 18px;font-family:var(--serif);font-size:clamp(27px,2.5vw,38px);font-weight:400}
+.trust-method-grid p{margin:0;color:var(--ink-soft);font-size:15px;line-height:1.65}
+.trust-platforms{background:#ebe5da}
+.trust-inpower{background:#11191d;color:#fff}
+.trust-inpower .trust-prose{border-color:rgba(255,255,255,.24)}
+.trust-inpower .trust-prose p{color:#d4d8d7}
+.trust-prose .text-link{display:inline-flex;margin-top:14px;color:inherit}
+.trust-cta{margin-top:0}
+@media(max-width:900px){
+  .matrix-trust-room,.trust-heading,.trust-split{grid-template-columns:1fr}
+  .matrix-trust-marker{border-right:0;border-bottom:1px solid var(--brass);padding:0 0 28px}
+  .trust-facts{grid-template-columns:1fr 1fr}
+  .trust-method-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:620px){
+  .matrix-trust-room{padding:82px 21px 72px}
+  .matrix-trust-copy h2{font-size:clamp(38px,11vw,50px)}
+  .trust-facts,.trust-method-grid{grid-template-columns:1fr}
+  .trust-facts>div,.trust-method-grid article{min-height:auto}
+  .trust-facts strong{margin-top:26px}
+  .trust-method-grid h3{margin-top:28px}
+}
