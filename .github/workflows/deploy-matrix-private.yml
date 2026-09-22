@@ -1,0 +1,137 @@
+name: Deploy Matrix private
+
+on:
+  workflow_dispatch:
+    inputs:
+      deploy_ref:
+        description: Approved full commit SHA or repository ref to deploy (full SHA preferred)
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: matrix-private-deployment
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    if: github.repository == 'KFreymatrixbusinessbiz/Matrix' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    environment:
+      name: matrix-private
+      url: https://matrix.kfrey.workers.dev/
+    env:
+      CI: 'true'
+      WRANGLER_SEND_METRICS: 'false'
+    steps:
+      - name: Validate requested ref
+        env:
+          REQUESTED_REF: ${{ inputs.deploy_ref }}
+        run: |
+          python3 - <<'PY'
+          import os, re
+          ref = os.environ['REQUESTED_REF']
+          if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._/-]{0,199}', ref):
+              raise SystemExit('Invalid or empty deploy_ref')
+          PY
+
+      - name: Checkout approved source
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          ref: ${{ inputs.deploy_ref }}
+          persist-credentials: false
+
+      - name: Record resolved source
+        id: source
+        env:
+          REQUESTED_REF: ${{ inputs.deploy_ref }}
+        run: |
+          resolved=$(git rev-parse --verify HEAD)
+          git checkout --detach "$resolved"
+          printf 'sha=%s\n' "$resolved" >> "$GITHUB_OUTPUT"
+          printf 'Requested ref: %s\nResolved SHA: %s\n' "$REQUESTED_REF" "$resolved"
+          printf 'Requested ref: `%s`\n\nResolved SHA: `%s`\n' "$REQUESTED_REF" "$resolved" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Set up Node
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: '24'
+
+      - name: Install locked dependencies
+        run: npm ci --no-audit --no-fund
+
+      - name: Build Matrix
+        id: build
+        run: npm run build
+
+      - name: Verify private target and public build
+        id: safety
+        run: |
+          python3 - <<'PY'
+          import json, pathlib, re
+          root = pathlib.Path.cwd()
+          # The existing .jsonc file is valid JSON. Fail closed on unsupported config syntax.
+          config = json.loads((root / 'wrangler.jsonc').read_text())
+          allowed = {'$schema', 'name', 'compatibility_date', 'main', 'keep_vars', 'vars', 'assets', 'observability', 'account_id', 'workers_dev'}
+          if set(config) - allowed:
+              raise SystemExit('Unreviewed Wrangler configuration keys; private deployment blocked')
+          if config.get('name') != 'matrix' or config.get('main') != './worker.js':
+              raise SystemExit('Unexpected Worker target or entrypoint')
+          if config.get('account_id'):
+              raise SystemExit('Account must be selected by repository secret, not source configuration')
+          if config.get('workers_dev') is False:
+              raise SystemExit('workers.dev must remain enabled')
+          assets = config.get('assets', {})
+          if set(assets) - {'directory', 'binding', 'run_worker_first', 'not_found_handling'}:
+              raise SystemExit('Unreviewed assets configuration')
+          if pathlib.Path(assets.get('directory', '')).as_posix() != 'dist':
+              raise SystemExit('Expected dist static-assets directory')
+          if (root / '.wrangler/deploy/config.json').exists():
+              raise SystemExit('Generated Wrangler config redirect is not permitted')
+          dist = root / 'dist'
+          if not dist.is_dir() or not (dist / 'index.html').is_file():
+              raise SystemExit('Missing public build')
+          files = list(dist.rglob('*'))
+          if any(p.is_symlink() for p in files):
+              raise SystemExit('Symlinks are not permitted in public build')
+          if any('internal' in p.relative_to(dist).parts or re.search(r'evidence[-_ ]?register', p.name, re.I) for p in files):
+              raise SystemExit('Internal evidence material found in public build')
+          html = [p for p in files if p.is_file() and p.suffix.lower() == '.html']
+          css = [p for p in files if p.is_file() and p.suffix.lower() == '.css']
+          if not html or not css or not (dist / 'index.html').stat().st_size:
+              raise SystemExit('Missing HTML or stylesheet')
+          contamination = re.compile(r'warning\s*:\s*truncated output|original token count|total output lines\s*:|\b\d+\s+tokens?\s+truncated\b|npm\s+(?:warn|err!)|proxy environment variables detected|tool[_ -]?warning', re.I)
+          for p in css:
+              content = p.read_text()
+              if not content.strip() or contamination.search(content):
+                  raise SystemExit('Empty or contaminated stylesheet: ' + str(p.relative_to(dist)))
+          print(f'Safety PASS: {len(html)} HTML files; {len(css)} stylesheets; target matrix; dist assets; no routes or internal evidence')
+          PY
+
+      - name: Verify existing Worker and deploy
+        id: deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          if [ -z "$CLOUDFLARE_API_TOKEN" ] || [ -z "$CLOUDFLARE_ACCOUNT_ID" ]; then
+            printf '%s\n' 'Required Cloudflare repository secrets are missing.' >&2
+            exit 1
+          fi
+          # Read-only check fails if the existing Worker cannot be accessed.
+          # Never fall back to another account, Worker, or deployment method.
+          npx --no-install wrangler deployments list --config wrangler.jsonc --name matrix
+          npx --no-install wrangler deploy --config wrangler.jsonc
+
+      - name: Report results
+        if: always()
+        env:
+          BUILD_RESULT: ${{ steps.build.outcome }}
+          SAFETY_RESULT: ${{ steps.safety.outcome }}
+          DEPLOY_RESULT: ${{ steps.deploy.outcome }}
+        run: |
+          printf 'Build: %s\nSafety: %s\nDeployment: %s\n' "$BUILD_RESULT" "$SAFETY_RESULT" "$DEPLOY_RESULT"
+          printf '\nBuild: %s\n\nSafety: %s\n\nDeployment: %s\n' "$BUILD_RESULT" "$SAFETY_RESULT" "$DEPLOY_RESULT" >> "$GITHUB_STEP_SUMMARY"
