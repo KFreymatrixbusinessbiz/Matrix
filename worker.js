@@ -61,8 +61,6 @@ async function handleInquiry(request, env) {
     return json({ ok: false, error: "Please reload the page and try again." }, 422);
   }
 
-  const wixResult = await createWixContact(inquiry, env);
-
   try {
     await sendMicrosoftNotification(inquiry, env);
   } catch (error) {
@@ -70,64 +68,17 @@ async function handleInquiry(request, env) {
     return deliveryError();
   }
 
-  if (!wixResult.ok) {
-    console.error("The inquiry email was sent, but the Wix contact was not recorded.");
-  }
-
-  return json({ ok: true, contactRecorded: wixResult.ok }, 201);
+  return json({ ok: true }, 201);
 }
 
 function requiredConfiguration(env) {
   return [
-    "WIX_API_KEY",
-    "WIX_SITE_ID",
     "MICROSOFT_CLIENT_ID",
     "MICROSOFT_CLIENT_SECRET",
     "MICROSOFT_TENANT_ID",
     "MICROSOFT_SENDER_EMAIL",
     "INQUIRY_RECIPIENTS"
   ].filter((name) => !env[name]);
-}
-
-async function createWixContact(inquiry, env) {
-  const info = {
-    name: splitName(inquiry.name),
-    emails: { items: [{ tag: "WORK", email: inquiry.email, primary: true }] },
-    company: inquiry.organization || undefined,
-    phones: inquiry.phone
-      ? { items: [{ tag: "WORK", phone: inquiry.phone, primary: true }] }
-      : undefined,
-    extendedFields: {
-      items: {
-        "custom.inquiry-topic": inquiry.topic,
-        "custom.inquiry-message": inquiry.message,
-        "custom.inquiry-source": "matrixbusiness.biz"
-      }
-    }
-  };
-
-  try {
-    const response = await fetch("https://www.wixapis.com/contacts/v4/contacts", {
-      method: "POST",
-      headers: {
-        authorization: env.WIX_API_KEY,
-        "wix-site-id": env.WIX_SITE_ID,
-        "content-type": "application/json"
-      },
-      body: JSON.stringify({ info, allowDuplicates: true })
-    });
-
-    if (!response.ok) {
-      const error = await response.text();
-      console.error("Wix contact creation failed", response.status, error.slice(0, 1_000));
-      return { ok: false };
-    }
-
-    return { ok: true };
-  } catch (error) {
-    console.error("Wix contact request failed", error);
-    return { ok: false };
-  }
 }
 
 async function sendMicrosoftNotification(inquiry, env) {
@@ -260,12 +211,6 @@ function clean(value, limit) {
     .replace(/\s+/g, " ")
     .trim()
     .slice(0, limit);
-}
-
-function splitName(fullName) {
-  const parts = fullName.split(/\s+/);
-  if (parts.length === 1) return { first: parts[0] };
-  return { first: parts.slice(0, -1).join(" "), last: parts.at(-1) };
 }
 
 function escapeHtml(value) {
