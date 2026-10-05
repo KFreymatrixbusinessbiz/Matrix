@@ -1,6 +1,7 @@
 {
   "name": "matrix-business-systems-site",
   "private": true,
+  "type": "module",
   "scripts": {
     "verify": "node scripts/verify-site.mjs",
     "build": "node scripts/build.mjs",

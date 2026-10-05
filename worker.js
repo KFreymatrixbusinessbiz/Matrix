@@ -8,21 +8,106 @@ const MAX_BODY_BYTES = 16_384;
 const MIN_COMPLETION_MS = 2_500;
 const MAX_COMPLETION_MS = 86_400_000;
 
+const PRODUCTION_HOST = "matrixbusiness.biz";
+const WWW_HOST = "www.matrixbusiness.biz";
+const PRIVATE_HOST_SUFFIX = ".workers.dev";
+
+const LEGACY_REDIRECTS = new Map([
+  ["/s-projects-side-by-side", "/copiers-multifunction"],
+  ["/services-7", "/technology"],
+  ["/about-1", "/about"],
+  ["/blank-4", "/contact"]
+]);
+
+const PUBLIC_PAGE_PATHS = new Set([
+  "/about",
+  "/acquisition-support",
+  "/brother-business",
+  "/brother-titan",
+  "/contact",
+  "/copiers-multifunction",
+  "/epson-colorworks",
+  "/epson-large-format",
+  "/how-we-work",
+  "/label-printing",
+  "/modern-workplace",
+  "/my-account",
+  "/operating-scenarios",
+  "/papercut-workflow",
+  "/perspectives",
+  "/practice-areas",
+  "/printers-scanners",
+  "/technology",
+  "/visual-communications"
+]);
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
+    const hostname = url.hostname.toLowerCase();
 
-    if (url.pathname === "/api/inquiry") {
-      if (request.method === "OPTIONS") return new Response(null, { status: 204 });
-      if (request.method !== "POST") {
-        return json({ ok: false, error: "Method not allowed." }, 405);
-      }
-      return handleInquiry(request, env);
+    if (hostname === WWW_HOST) {
+      const destination = new URL(url.pathname + url.search, `https://${PRODUCTION_HOST}`);
+      return Response.redirect(destination, 301);
     }
 
-    return env.ASSETS.fetch(request);
+    const redirect = canonicalRedirect(url);
+    if (redirect) return redirect;
+
+    if (url.pathname === "/api/inquiry") {
+      if (request.method === "OPTIONS") {
+        return withIndexingPolicy(new Response(null, { status: 204 }), hostname);
+      }
+      if (request.method !== "POST") {
+        return withIndexingPolicy(
+          json({ ok: false, error: "Method not allowed." }, 405),
+          hostname
+        );
+      }
+      return withIndexingPolicy(await handleInquiry(request, env), hostname);
+    }
+
+    return withIndexingPolicy(await env.ASSETS.fetch(request), hostname);
   }
 };
+
+function canonicalRedirect(url) {
+  const legacyDestination = LEGACY_REDIRECTS.get(url.pathname);
+  if (legacyDestination) {
+    return permanentRedirect(url, legacyDestination);
+  }
+
+  if (url.pathname === "/index.html") {
+    return permanentRedirect(url, "/");
+  }
+
+  if (url.pathname.endsWith(".html")) {
+    const extensionlessPath = url.pathname.slice(0, -5);
+    if (PUBLIC_PAGE_PATHS.has(extensionlessPath)) {
+      return permanentRedirect(url, extensionlessPath);
+    }
+  }
+
+  return null;
+}
+
+function permanentRedirect(source, pathname) {
+  const destination = new URL(source);
+  destination.pathname = pathname;
+  return Response.redirect(destination, 301);
+}
+
+function withIndexingPolicy(response, hostname) {
+  if (!hostname.endsWith(PRIVATE_HOST_SUFFIX)) return response;
+
+  const headers = new Headers(response.headers);
+  headers.set("x-robots-tag", "noindex, nofollow, noarchive");
+  return new Response(response.body, {
+    status: response.status,
+    statusText: response.statusText,
+    headers
+  });
+}
 
 async function handleInquiry(request, env) {
   const missing = requiredConfiguration(env);

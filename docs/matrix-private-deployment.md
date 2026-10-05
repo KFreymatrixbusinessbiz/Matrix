@@ -55,3 +55,22 @@ Matrix/Wix, InPower, DNS, custom domains, or production routes. It does not call
 Wix APIs. The workers.dev address is a review endpoint, not an authentication
 boundary. Existing account routing must remain restricted to private review;
 this workflow does not audit or remove routes configured outside this repository.
+
+## Matrix inquiry configuration
+
+Configure the inquiry bindings on the existing `matrix` Worker under
+**Workers & Pages > matrix > Settings > Variables and Secrets**. Configure them
+for the production Worker environment used by Workers Builds; never place their
+values in this repository or in build environment variables.
+
+| Binding | Cloudflare type |
+| --- | --- |
+| `MICROSOFT_CLIENT_ID` | Plain-text variable |
+| `MICROSOFT_CLIENT_SECRET` | Encrypted secret |
+| `MICROSOFT_TENANT_ID` | Plain-text variable |
+| `MICROSOFT_SENDER_EMAIL` | Plain-text variable |
+| `INQUIRY_RECIPIENTS` | Plain-text variable |
+
+The endpoint fails closed with a generic unavailable response when any binding
+is missing. `wrangler.jsonc` keeps dashboard-managed variables and secrets across
+Workers Builds deployments. The inquiry path does not require or call Wix.
