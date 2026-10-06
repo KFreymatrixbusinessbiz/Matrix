@@ -50,6 +50,18 @@ for (const file of files) {
       errors.push(`${file}: missing local reference ${ref}`);
     }
   }
+
+  if (file === "contact.html") {
+    if (!/<a\s+href=["']#discussion-form["'][^>]*>[\s\S]*?Website inquiry/i.test(html)) {
+      errors.push("contact.html: primary contact option must open the website inquiry form");
+    }
+    if (!/<form\b[^>]*id=["']discussion-form["']/i.test(html)) {
+      errors.push("contact.html: missing discussion form");
+    }
+    if (!/contact-secondary-email[\s\S]*?mailto:contact@matrixbusiness\.biz/i.test(html)) {
+      errors.push("contact.html: direct email must remain available as a secondary option");
+    }
+  }
 }
 
 const sitemap = await readFile(path.join(root, "sitemap.xml"), "utf8");
@@ -168,6 +180,119 @@ try {
   }
 } finally {
   console.error = originalConsoleError;
+}
+
+const contactScript = await readFile(path.join(root, "contact-form.js"), "utf8");
+for (const requiredPattern of [
+  /form\.reportValidity\(\)/,
+  /fetch\(["']\/api\/inquiry["']/,
+  /method:\s*["']POST["']/,
+  /status\.dataset\.state\s*=\s*["']success["']/,
+  /status\.dataset\.state\s*=\s*["']error["']/
+]) {
+  if (!requiredPattern.test(contactScript)) {
+    errors.push(`contact-form.js: missing required behavior ${requiredPattern}`);
+  }
+}
+
+const configuredEnvironment = {
+  ...assetEnvironment,
+  MICROSOFT_CLIENT_ID: "test-client",
+  MICROSOFT_CLIENT_SECRET: "test-secret",
+  MICROSOFT_TENANT_ID: "test-tenant",
+  MICROSOFT_SENDER_EMAIL: "sender@example.test",
+  INQUIRY_RECIPIENTS: "recipient-one@example.test; recipient-two@example.test"
+};
+const inquiryRequest = (body) =>
+  new Request("https://matrix.kfrey.workers.dev/api/inquiry", {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+      origin: "https://matrix.kfrey.workers.dev"
+    },
+    body: JSON.stringify(body)
+  });
+const validInquiry = {
+  name: "Website Visitor",
+  email: "visitor@example.test",
+  phone: "",
+  organization: "Example",
+  topic: "Workplace technology",
+  message: "This is a local verification message with sufficient detail.",
+  website: "",
+  startedAt: Date.now() - 3_000
+};
+
+const invalidInquiryResponse = await worker.fetch(
+  inquiryRequest({ ...validInquiry, email: "invalid" }),
+  configuredEnvironment
+);
+if (invalidInquiryResponse.status !== 422) {
+  errors.push(`worker inquiry: invalid email expected 422, got ${invalidInquiryResponse.status}`);
+}
+
+const fastInquiryResponse = await worker.fetch(
+  inquiryRequest({ ...validInquiry, startedAt: Date.now() }),
+  configuredEnvironment
+);
+if (fastInquiryResponse.status !== 422) {
+  errors.push(`worker inquiry: fast submission expected 422, got ${fastInquiryResponse.status}`);
+}
+
+let externalFetches = [];
+const originalFetch = globalThis.fetch;
+globalThis.fetch = async (url, options = {}) => {
+  externalFetches.push({ url: String(url), options });
+  if (String(url).includes("login.microsoftonline.com")) {
+    return jsonResponse({ access_token: "test-token" });
+  }
+  if (String(url).includes("graph.microsoft.com")) {
+    return new Response(null, { status: 202 });
+  }
+  throw new Error(`Unexpected external request: ${url}`);
+};
+try {
+  const honeypotResponse = await worker.fetch(
+    inquiryRequest({ ...validInquiry, website: "filled" }),
+    configuredEnvironment
+  );
+  if (honeypotResponse.status !== 202 || externalFetches.length !== 0) {
+    errors.push("worker inquiry: honeypot submission must be accepted without Graph delivery");
+  }
+
+  const deliveryResponse = await worker.fetch(
+    inquiryRequest({ ...validInquiry, startedAt: Date.now() - 3_000 }),
+    configuredEnvironment
+  );
+  if (deliveryResponse.status !== 201 || externalFetches.length !== 2) {
+    errors.push("worker inquiry: valid submission must complete token and Graph delivery requests");
+  } else {
+    const [tokenRequest, mailRequest] = externalFetches;
+    if (!tokenRequest.url.includes("/oauth2/v2.0/token")) {
+      errors.push("worker inquiry: unexpected Microsoft token endpoint");
+    }
+    if (!mailRequest.url.includes("graph.microsoft.com/v1.0/users/") || !mailRequest.url.endsWith("/sendMail")) {
+      errors.push("worker inquiry: unexpected Microsoft Graph mail endpoint");
+    }
+    const graphPayload = JSON.parse(String(mailRequest.options.body));
+    const addresses = graphPayload.message.toRecipients.map((item) => item.emailAddress.address);
+    if (addresses.length !== 2) errors.push("worker inquiry: configured recipients were not preserved");
+    if (graphPayload.message.replyTo?.[0]?.emailAddress?.address !== validInquiry.email) {
+      errors.push("worker inquiry: visitor Reply-To was not preserved");
+    }
+    if (graphPayload.saveToSentItems !== true) {
+      errors.push("worker inquiry: Sent Items behavior was not preserved");
+    }
+  }
+} finally {
+  globalThis.fetch = originalFetch;
+}
+
+function jsonResponse(value) {
+  return new Response(JSON.stringify(value), {
+    status: 200,
+    headers: { "content-type": "application/json" }
+  });
 }
 
 if (errors.length) {
