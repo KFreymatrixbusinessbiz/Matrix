@@ -7,8 +7,7 @@
     let menuButton = header?.querySelector(".menu-button");
     let mobileNav = document.querySelector(".mobile-nav");
 
-    // Detail pages retain their compact, horizontally scrollable navigation.
-    if (!header || !desktopNav || document.body.classList.contains("solution-page")) return;
+    if (!header || !desktopNav) return;
 
     if (!menuButton) {
       menuButton = document.createElement("button");
