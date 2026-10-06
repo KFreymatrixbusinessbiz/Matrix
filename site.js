@@ -2,8 +2,6 @@
   "use strict";
   const rooms = [...document.querySelectorAll(".room, .chapter-room")];
   const dots = [...document.querySelectorAll(".progress-dot")];
-  const menuButton = document.querySelector(".menu-button");
-  const mobileNav = document.querySelector(".mobile-nav");
 
   rooms.forEach(room => {
     room.hidden = false;
@@ -35,16 +33,4 @@
     selectRoom(0);
   }
 
-  addEventListener("keydown", e => {
-    if (e.key === "Escape" && mobileNav?.classList.contains("open")) {
-      mobileNav.classList.remove("open");
-      menuButton?.setAttribute("aria-expanded","false");
-      menuButton?.focus();
-    }
-  });
-
-  menuButton?.addEventListener("click", () => {
-    const open = mobileNav?.classList.toggle("open") ?? false;
-    menuButton.setAttribute("aria-expanded", String(open));
-  });
 })();
