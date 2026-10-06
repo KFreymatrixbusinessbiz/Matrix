@@ -123,24 +123,57 @@ await expectRedirect(
   "https://matrix.kfrey.workers.dev/contact"
 );
 await expectRedirect(
+  "https://matrix.kfrey.workers.dev/blank-3?source=legacy",
+  "https://inpower.biz/?source=legacy"
+);
+await expectRedirect(
+  "https://matrix.kfrey.workers.dev/new-inpower",
+  "https://inpower.biz/"
+);
+await expectRedirect(
+  "https://matrix.kfrey.workers.dev/government-solutions?source=legacy",
+  "https://matrix.kfrey.workers.dev/practice-areas?source=legacy"
+);
+await expectRedirect(
+  "https://matrix.kfrey.workers.dev/copy-of-government-solutions",
+  "https://matrix.kfrey.workers.dev/how-we-work"
+);
+await expectRedirect(
   "https://www.matrixbusiness.biz/contact?source=www",
   "https://matrixbusiness.biz/contact?source=www"
 );
 
 for (const pathname of [
-  "/blank-3",
-  "/government-solutions",
-  "/copy-of-government-solutions",
   "/capabilities-statement",
-  "/about-5"
+  "/about-5",
+  "/cart-page",
+  "/checkout",
+  "/product-page",
+  "/category"
 ]) {
   const response = await worker.fetch(
     new Request(`https://matrix.kfrey.workers.dev${pathname}`),
     assetEnvironment
   );
-  if (response.status !== 200 || response.headers.has("location")) {
-    errors.push(`worker redirect: deferred path must not redirect: ${pathname}`);
+  if (response.status !== 410 || response.headers.has("location")) {
+    errors.push(`worker retirement: ${pathname} expected 410 without redirect`);
   }
+}
+
+const unknownResponse = await worker.fetch(
+  new Request("https://matrix.kfrey.workers.dev/not-a-real-matrix-route"),
+  { ASSETS: { fetch: () => new Response("not found", { status: 404 }) } }
+);
+if (unknownResponse.status !== 404 || unknownResponse.headers.has("location")) {
+  errors.push("worker routing: unknown paths must remain 404 without redirect");
+}
+
+const paymentPageResponse = await worker.fetch(
+  new Request("https://matrix.kfrey.workers.dev/my-account"),
+  assetEnvironment
+);
+if (paymentPageResponse.status !== 200 || paymentPageResponse.headers.has("location")) {
+  errors.push("worker routing: /my-account must remain available without redirect");
 }
 
 const privateResponse = await worker.fetch(

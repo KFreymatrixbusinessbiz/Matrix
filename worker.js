@@ -15,8 +15,21 @@ const PRIVATE_HOST_SUFFIX = ".workers.dev";
 const LEGACY_REDIRECTS = new Map([
   ["/s-projects-side-by-side", "/copiers-multifunction"],
   ["/services-7", "/technology"],
+  ["/government-solutions", "/practice-areas"],
+  ["/copy-of-government-solutions", "/how-we-work"],
   ["/about-1", "/about"],
-  ["/blank-4", "/contact"]
+  ["/blank-4", "/contact"],
+  ["/blank-3", "https://inpower.biz/"],
+  ["/new-inpower", "https://inpower.biz/"]
+]);
+
+const RETIRED_PATHS = new Set([
+  "/capabilities-statement",
+  "/about-5",
+  "/cart-page",
+  "/checkout",
+  "/product-page",
+  "/category"
 ]);
 
 const PUBLIC_PAGE_PATHS = new Set([
@@ -53,6 +66,20 @@ export default {
 
     const redirect = canonicalRedirect(url);
     if (redirect) return redirect;
+
+    if (RETIRED_PATHS.has(url.pathname)) {
+      return withIndexingPolicy(
+        new Response("This legacy page is no longer available.", {
+          status: 410,
+          headers: {
+            "content-type": "text/plain; charset=utf-8",
+            "cache-control": "public, max-age=86400",
+            "x-content-type-options": "nosniff"
+          }
+        }),
+        hostname
+      );
+    }
 
     if (url.pathname === "/api/inquiry") {
       if (request.method === "OPTIONS") {
@@ -91,9 +118,9 @@ function canonicalRedirect(url) {
   return null;
 }
 
-function permanentRedirect(source, pathname) {
-  const destination = new URL(source);
-  destination.pathname = pathname;
+function permanentRedirect(source, target) {
+  const destination = new URL(target, source.origin);
+  destination.search = source.search;
   return Response.redirect(destination, 301);
 }
 
