@@ -176,6 +176,41 @@ if (paymentPageResponse.status !== 200 || paymentPageResponse.headers.has("locat
   errors.push("worker routing: /my-account must remain available without redirect");
 }
 
+const paymentPage = await readFile(path.join(root, "my-account.html"), "utf8");
+for (const requiredPattern of [
+  /accountspayable@matrixbusiness\.biz/,
+  /Invoice Number\(s\)/,
+  /total invoice amount plus the applicable credit-card processing fee/i,
+  /3% processing fee/,
+  /4% for American Express/,
+  /Processing Date/,
+  /secure payment link/i,
+  /do not include credit-card numbers or other card details/i
+]) {
+  if (!requiredPattern.test(paymentPage)) {
+    errors.push(`my-account.html: missing required payment instruction ${requiredPattern}`);
+  }
+}
+if (/mailto:/i.test(paymentPage)) {
+  errors.push("my-account.html: payment instructions must not launch a local email application");
+}
+if (/<(?:input|select|textarea)\b[^>]*(?:name|autocomplete)=["'][^"']*(?:cc-|card|cvv|cvc)[^"']*["']/i.test(paymentPage)) {
+  errors.push("my-account.html: page must not request card data");
+}
+
+const paymentScript = await readFile(path.join(root, "payment.js"), "utf8");
+if (/\.payment-utility[\s\S]*?preventDefault\(/.test(paymentScript)) {
+  errors.push("payment.js: Make a Payment must navigate to /my-account without interception");
+}
+for (const file of files) {
+  const html = await readFile(path.join(root, file), "utf8");
+  for (const match of html.matchAll(/<a\b[^>]*class=["'][^"']*payment-utility[^"']*["'][^>]*href=["']([^"']+)["']/gi)) {
+    if (match[1] !== "/my-account") {
+      errors.push(`${file}: Make a Payment must link to /my-account, got ${match[1]}`);
+    }
+  }
+}
+
 const privateResponse = await worker.fetch(
   new Request("https://matrix.kfrey.workers.dev/contact"),
   assetEnvironment
