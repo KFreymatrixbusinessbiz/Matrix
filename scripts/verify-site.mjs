@@ -191,8 +191,11 @@ for (const requiredPattern of [
     errors.push(`my-account.html: missing required payment instruction ${requiredPattern}`);
   }
 }
-if (/mailto:/i.test(paymentPage)) {
-  errors.push("my-account.html: payment instructions must not launch a local email application");
+if (!/<li>A payment confirmation is provided[\s\S]*?<\/ol>\s*<p class="payment-email-request"><a href="mailto:accountspayable@matrixbusiness\.biz\?subject=Credit%20Card%20Payment%20Request">Email Accounts Payable<\/a><\/p>/i.test(paymentPage)) {
+  errors.push("my-account.html: Accounts Payable email link must appear directly after step 4");
+}
+if ((paymentPage.match(/mailto:/gi) || []).length !== 1) {
+  errors.push("my-account.html: payment page must contain exactly one intentional email link");
 }
 if (/<(?:input|select|textarea)\b[^>]*(?:name|autocomplete)=["'][^"']*(?:cc-|card|cvv|cvc)[^"']*["']/i.test(paymentPage)) {
   errors.push("my-account.html: page must not request card data");

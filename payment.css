@@ -11,9 +11,10 @@
 .payment-content ol { padding-left: 24px; margin: 16px 0; }
 .payment-content li { margin: 12px 0; padding-left: 4px; }
 .payment-email { overflow-wrap: anywhere; }
+.payment-email-request a { overflow-wrap: anywhere; text-underline-offset: 3px; }
 .payment-fees { padding: 16px; background: var(--paper); border-left: 2px solid var(--brass); }
 .payment-content .payment-security { font-size: .875rem; color: var(--ink-soft); }
-.payment-utility:focus-visible { outline: 2px solid var(--brass-dark); outline-offset: 4px; }
+.payment-utility:focus-visible, .payment-email-request a:focus-visible { outline: 2px solid var(--brass-dark); outline-offset: 4px; }
 @media (max-width: 900px) {
   .payment-utility { min-height: 44px; }
 }
