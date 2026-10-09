@@ -1,4 +1,5 @@
 import { cp, mkdir, readFile, readdir, rm, writeFile } from "node:fs/promises";
+import { createHash } from "node:crypto";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
 
@@ -34,25 +35,34 @@ for (const name of publishable) {
 const analyticsSnippet = `  <!-- Cloudflare Web Analytics -->
   <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"c775be50f1174e038034801e23196228"}'></script>
   <!-- End Cloudflare Web Analytics -->`;
+const paymentScriptVersion = createHash("sha256")
+  .update(await readFile(path.join(root, "payment.js")))
+  .digest("hex")
+  .slice(0, 12);
 
 for (const name of publishable.filter((name) => /\.html$/i.test(name))) {
   const destination = path.join(dist, name);
-  const html = await readFile(destination, "utf8");
+  let html = await readFile(destination, "utf8");
 
-  if (html.includes("static.cloudflareinsights.com/beacon.min.js")) {
-    continue;
-  }
-
-  if (!/<\/head>/i.test(html)) {
-    throw new Error(
-      `Cannot install Cloudflare Web Analytics: ${name} has no closing head tag.`
-    );
-  }
-
-  await writeFile(
-    destination,
-    html.replace(/<\/head>/i, `${analyticsSnippet}\n</head>`)
+  html = html.replaceAll(
+    'src="payment.js"',
+    `src="payment.js?v=${paymentScriptVersion}"`
   );
+
+  if (!html.includes("static.cloudflareinsights.com/beacon.min.js")) {
+    if (!/<\/head>/i.test(html)) {
+      throw new Error(
+        `Cannot install Cloudflare Web Analytics: ${name} has no closing head tag.`
+      );
+    }
+    html = html.replace(/<\/head>/i, `${analyticsSnippet}\n</head>`);
+  }
+
+  if (/src="payment\.js"/i.test(html)) {
+    throw new Error(`Cannot publish unversioned payment.js reference: ${name}`);
+  }
+
+  await writeFile(destination, html);
 }
 
 const unusedSourceAssets = new Set([
