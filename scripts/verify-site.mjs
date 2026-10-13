@@ -176,6 +176,25 @@ if (paymentPageResponse.status !== 200 || paymentPageResponse.headers.has("locat
   errors.push("worker routing: /my-account must remain available without redirect");
 }
 
+for (const pathname of [
+  "/_paylink/wE9K9imQ3OsA",
+  "/_paylink/another-retired-wix-token"
+]) {
+  const response = await worker.fetch(
+    new Request(`https://matrixbusiness.biz${pathname}`),
+    assetEnvironment
+  );
+  if (
+    response.status !== 302 ||
+    response.headers.get("location") !==
+      "https://matrixbusiness.biz/my-account#request-new-link"
+  ) {
+    errors.push(
+      `worker payment recovery: ${pathname} must temporarily redirect to /my-account#request-new-link`
+    );
+  }
+}
+
 const paymentPage = await readFile(path.join(root, "my-account.html"), "utf8");
 for (const requiredPattern of [
   /accountspayable@matrixbusiness\.biz/,
@@ -185,6 +204,8 @@ for (const requiredPattern of [
   /4% for American Express/,
   /Processing Date/,
   /secure payment link/i,
+  /older Matrix payment link that no longer opens/i,
+  /id="request-new-link"/,
   /do not include credit-card numbers or other card details/i
 ]) {
   if (!requiredPattern.test(paymentPage)) {

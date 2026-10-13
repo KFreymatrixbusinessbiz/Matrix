@@ -99,6 +99,10 @@ export default {
 };
 
 function canonicalRedirect(url) {
+  if (url.pathname === "/_paylink" || url.pathname.startsWith("/_paylink/")) {
+    return temporaryRedirect(url, "/my-account#request-new-link");
+  }
+
   const legacyDestination = LEGACY_REDIRECTS.get(url.pathname);
   if (legacyDestination) {
     return permanentRedirect(url, legacyDestination);
@@ -122,6 +126,11 @@ function permanentRedirect(source, target) {
   const destination = new URL(target, source.origin);
   destination.search = source.search;
   return Response.redirect(destination, 301);
+}
+
+function temporaryRedirect(source, target) {
+  const destination = new URL(target, source.origin);
+  return Response.redirect(destination, 302);
 }
 
 function withIndexingPolicy(response, hostname) {
