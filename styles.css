@@ -1432,6 +1432,58 @@ html:has(link[rel="canonical"][href$="/copiers-multifunction"]) .solution-hero+.
 .subpage h1{
   margin-top:34px;
 }
+.not-found-page{
+  position:relative;
+  display:grid;
+  grid-template-rows:auto 1fr;
+  min-height:100svh;
+  overflow:hidden;
+  color:#fff;
+  background:
+    linear-gradient(90deg,rgba(4,11,19,.93),rgba(5,20,34,.78) 55%,rgba(5,20,34,.54)),
+    url("assets/matrix-glass-architecture-2400.webp") center 42%/cover no-repeat;
+}
+.not-found-page::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:linear-gradient(180deg,rgba(4,9,14,.08),rgba(4,9,14,.62));
+}
+.not-found-header,.not-found-page main{
+  position:relative;
+  z-index:1;
+}
+.not-found-header{
+  min-height:76px;
+}
+.not-found-page .brand{
+  color:#fff;
+}
+.not-found-page main{
+  align-self:center;
+  max-width:840px;
+  padding:48px 0 8vh;
+}
+.not-found-page .not-found-code{
+  margin:0 0 -22px;
+  color:rgba(255,255,255,.13);
+  font:400 clamp(92px,18vw,230px)/.8 Georgia,serif;
+  letter-spacing:-.07em;
+}
+.not-found-page h1{
+  max-width:11ch;
+  margin:18px 0 28px;
+  font-size:clamp(48px,7vw,96px);
+}
+.not-found-page main>p:not(.not-found-code):not(.solution-eyebrow){
+  max-width:590px;
+  color:#e7edf1;
+}
+.not-found-page .back-link{
+  color:#fff;
+  border-color:var(--brass);
+}
 .learned-opening .learned-text,
 .perspectives-opening .perspectives-copy,
 .practice-opening .practice-copy,
@@ -1539,6 +1591,201 @@ html:has(link[rel="canonical"][href$="/copiers-multifunction"]) .solution-hero+.
   .chapter-page .chapter-opening h1,.chapter-page .learned-opening h1,.chapter-page .technology-opening h1{font-size:clamp(44px,13vw,62px)!important}
   .chapter-page .practice-copy,.chapter-page .technology-copy,.chapter-page .learned-text{padding:104px 20px 72px!important;margin-left:0!important;width:100%!important}
   .chapter-page .practice-copy h2,.chapter-page .technology-copy h2,.chapter-page .learned-statement h2,.chapter-page .learned-close h2,.chapter-page .chapter-close h2{font-size:clamp(38px,11vw,52px)!important}
+}
+
+/* Concept C: Architecture + Operating Intelligence */
+.home-page .matrix-architecture-hero{
+  position:relative;
+  min-height:100svh;
+  isolation:isolate;
+  background:#071b27;
+  color:#fff;
+}
+.matrix-architecture-media,
+.matrix-architecture-media img,
+.matrix-architecture-overlay{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+}
+.matrix-architecture-media img{
+  display:block;
+  object-fit:cover;
+  object-position:52% 50%;
+}
+.matrix-architecture-overlay{
+  z-index:1;
+  background:
+    linear-gradient(90deg,rgba(3,18,28,.95) 0%,rgba(3,18,28,.82) 38%,rgba(3,18,28,.3) 70%,rgba(3,18,28,.14) 100%),
+    linear-gradient(0deg,rgba(3,18,28,.84) 0%,rgba(3,18,28,.22) 58%,rgba(3,18,28,.18) 100%);
+}
+.matrix-architecture-layout{
+  position:relative;
+  z-index:2;
+  display:grid;
+  grid-template-columns:minmax(0,.92fr) minmax(500px,1.08fr);
+  gap:clamp(42px,6vw,92px);
+  align-items:end;
+  width:min(1320px,calc(100% - 72px));
+  min-height:100svh;
+  margin:0 auto;
+  padding:clamp(146px,17vh,190px) 0 clamp(44px,6vh,72px);
+}
+.home-page .matrix-architecture-layout .hero-content{
+  width:auto;
+  min-height:0;
+  margin:0;
+  padding:0!important;
+}
+.home-page .matrix-architecture-layout .hero-content .hero-kicker{
+  color:#efbd63;
+  font-weight:700;
+}
+.home-page .matrix-architecture-layout .matrix-welcome-hero h1{
+  max-width:12ch;
+  color:#fff;
+  font-size:clamp(48px,5.4vw,78px)!important;
+  line-height:.99!important;
+  text-wrap:balance;
+}
+.home-page .matrix-architecture-layout .matrix-welcome-hero>p:last-of-type{
+  max-width:610px;
+  color:#eef3f4;
+  font-size:clamp(16px,1.15vw,19px);
+  line-height:1.62;
+}
+.matrix-architecture-layout .brass-rule{width:78px;height:2px;background:#e0aa4d}
+.matrix-architecture-layout .matrix-hero-actions a{
+  border-color:rgba(255,255,255,.72);
+  color:#fff;
+}
+.matrix-architecture-layout .matrix-hero-actions a:first-child{
+  border-color:#d9a64e;
+  background:#d9a64e;
+  color:#102532;
+}
+.matrix-architecture-layout .matrix-hero-actions a:hover,
+.matrix-architecture-layout .matrix-hero-actions a:focus-visible{
+  border-color:#fff;
+  background:#fff;
+  color:#102532;
+  outline:3px solid #e5b65e;
+  outline-offset:3px;
+}
+.matrix-operating-model{
+  align-self:end;
+  padding:clamp(28px,3vw,42px);
+  border:1px solid rgba(185,214,221,.34);
+  border-top:3px solid #d9a64e;
+  background:rgba(5,35,47,.91);
+  box-shadow:0 22px 55px rgba(0,12,19,.32);
+  backdrop-filter:blur(12px);
+}
+.matrix-operating-model>p{
+  margin:0 0 12px;
+  color:#efbd63;
+  font-size:.65rem;
+  font-weight:700;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+}
+.matrix-operating-model h2{
+  margin:0 0 34px;
+  color:#fff;
+  font-family:var(--serif);
+  font-size:clamp(27px,2.5vw,38px);
+  font-weight:400;
+  line-height:1.08;
+}
+.matrix-operating-model ol{
+  display:grid;
+  grid-template-columns:repeat(6,minmax(0,1fr));
+  margin:0;
+  padding:0;
+  list-style:none;
+}
+.matrix-operating-model li{
+  position:relative;
+  min-width:0;
+  padding:31px 12px 0 0;
+  border-top:2px solid #d9a64e;
+}
+.matrix-operating-model li:before{
+  content:"";
+  position:absolute;
+  top:-8px;
+  left:0;
+  width:12px;
+  height:12px;
+  border:2px solid #e8b65d;
+  border-radius:50%;
+  background:#082b39;
+}
+.matrix-operating-model li span{
+  display:block;
+  margin-bottom:10px;
+  color:#efbd63;
+  font-size:.62rem;
+  font-weight:700;
+  letter-spacing:.12em;
+}
+.matrix-operating-model li strong{
+  display:block;
+  max-width:11ch;
+  color:#fff;
+  font-size:clamp(.72rem,.82vw,.84rem);
+  font-weight:700;
+  line-height:1.38;
+  overflow-wrap:normal;
+}
+@media(max-width:1080px){
+  .matrix-architecture-layout{
+    grid-template-columns:1fr;
+    align-content:end;
+    gap:44px;
+    width:min(860px,calc(100% - 52px));
+  }
+  .home-page .matrix-architecture-layout .matrix-welcome-hero h1{max-width:14ch}
+}
+@media(max-width:700px){
+  .home-page .matrix-architecture-hero{min-height:auto}
+  .matrix-architecture-media img{object-position:47% 50%}
+  .matrix-architecture-overlay{
+    background:
+      linear-gradient(0deg,rgba(3,18,28,.97) 0%,rgba(3,18,28,.74) 63%,rgba(3,18,28,.28) 100%),
+      linear-gradient(90deg,rgba(3,18,28,.58),rgba(3,18,28,.16));
+  }
+  .matrix-architecture-layout{
+    width:calc(100% - 36px);
+    min-height:100svh;
+    gap:36px;
+    padding:112px 0 28px;
+  }
+  .home-page .matrix-architecture-layout .matrix-welcome-hero h1{
+    max-width:11ch;
+    font-size:clamp(40px,11.5vw,50px)!important;
+    line-height:1.02!important;
+  }
+  .home-page .matrix-architecture-layout .matrix-welcome-hero>p:last-of-type{
+    font-size:15px;
+    line-height:1.55;
+  }
+  .matrix-architecture-layout .matrix-hero-actions{display:grid}
+  .matrix-architecture-layout .matrix-hero-actions a{justify-content:center;text-align:center}
+  .matrix-operating-model{padding:24px 20px 22px;backdrop-filter:blur(8px)}
+  .matrix-operating-model h2{margin-bottom:28px;font-size:28px}
+  .matrix-operating-model ol{grid-template-columns:repeat(3,minmax(0,1fr));gap:28px 12px}
+  .matrix-operating-model li{padding:23px 4px 0 0}
+  .matrix-operating-model li strong{font-size:.74rem;line-height:1.35}
+}
+@media(max-width:480px){
+  .matrix-operating-model ol{grid-template-columns:repeat(2,minmax(0,1fr));gap:26px 14px}
+  .matrix-operating-model li{padding-top:22px}
+  .matrix-operating-model li strong{max-width:14ch;font-size:.76rem}
+}
+@media(prefers-reduced-motion:reduce){
+  .matrix-architecture-media img{transform:none!important}
 }
 
 /* Homepage introduction: connect the opening principle to Matrix's role. */
@@ -1777,4 +2024,275 @@ html:has(link[rel="canonical"][href$="/copiers-multifunction"]) .solution-hero+.
   .trust-facts>div,.trust-method-grid article{min-height:auto}
   .trust-facts strong{margin-top:26px}
   .trust-method-grid h3{margin-top:28px}
+}
+
+/* Concept C interior-page visual continuity */
+.technology-page .technology-opening{
+  position:relative;
+  isolation:isolate;
+  background:
+    linear-gradient(90deg,rgba(4,20,29,.97) 0%,rgba(4,20,29,.88) 42%,rgba(4,20,29,.38) 74%,rgba(4,20,29,.16) 100%),
+    linear-gradient(0deg,rgba(4,20,29,.78),rgba(4,20,29,.08) 55%),
+    url("assets/copier-workplace-v1.webp") 66% center/cover no-repeat;
+}
+.technology-page .technology-opening::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:-1;
+  background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);
+  background-size:64px 64px;
+  mask-image:linear-gradient(90deg,#000,transparent 72%);
+}
+.technology-page .technology-opening .technology-copy{position:relative;z-index:1;padding-bottom:clamp(44px,7vh,82px)}
+.technology-page .technology-opening h1{max-width:9ch;text-wrap:balance;text-shadow:0 8px 32px rgba(0,8,13,.32)}
+.technology-page .technology-opening .technology-deck{max-width:690px;color:#eef3f4}
+.technology-page .technology-note{color:#d8e0e1}
+.technology-page .technology-categories{background:linear-gradient(135deg,#f0ece4 0%,#e4ded2 100%)}
+.technology-page .technology-grid article{border-top:2px solid rgba(177,132,61,.38)}
+
+.how-work-page .solution-hero{
+  position:relative;
+  isolation:isolate;
+  min-height:88svh;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 76% 25%,rgba(217,166,78,.17),transparent 24%),
+    linear-gradient(135deg,#061923 0%,#0b2a37 54%,#07171f 100%);
+}
+.how-work-page .solution-hero::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:-1;
+  opacity:.45;
+  background-image:linear-gradient(rgba(185,214,221,.09) 1px,transparent 1px),linear-gradient(90deg,rgba(185,214,221,.09) 1px,transparent 1px);
+  background-size:72px 72px;
+  mask-image:linear-gradient(90deg,transparent 0%,#000 48%,#000 100%);
+}
+.how-work-page .solution-hero>div{position:relative}
+.how-work-page .solution-hero h1{max-width:1120px;text-wrap:balance}
+.how-work-signature{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));max-width:1040px;margin-top:clamp(44px,7vh,76px)}
+.how-work-signature span{position:relative;padding:25px 14px 0 0;border-top:2px solid #d9a64e;color:#f0f4f5;font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.how-work-signature span::before{content:"";position:absolute;top:-8px;left:0;width:12px;height:12px;border:2px solid #e8b65d;border-radius:50%;background:#082b39}
+.how-work-page .method-grid{counter-reset:matrix-method}
+.how-work-page .method-grid article{counter-increment:matrix-method;position:relative;border-top:2px solid transparent}
+.how-work-page .method-grid article::before{content:counter(matrix-method,decimal-leading-zero);display:block;margin-bottom:32px;color:var(--brass-dark);font-size:.67rem;font-weight:700;letter-spacing:.16em}
+.how-work-page .method-grid article:hover{border-top-color:var(--brass);background:#fff}
+
+.practice-page .practice-opening{
+  isolation:isolate;
+  background:url("assets/practice-areas.jpg") center/cover no-repeat;
+}
+.practice-page .practice-opening::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:0;
+  background:linear-gradient(90deg,rgba(4,18,27,.93),rgba(4,18,27,.62) 58%,rgba(4,18,27,.34)),linear-gradient(0deg,rgba(4,18,27,.78),rgba(4,18,27,.08) 62%);
+}
+.practice-page .practice-opening .opening-geometry{z-index:1;opacity:.54}
+.practice-page .practice-opening .chapter-opening-inner{position:relative;z-index:2;text-align:left;margin-left:clamp(24px,8vw,130px);margin-right:auto}
+.practice-page .practice-opening h1{max-width:9ch;color:#fff;text-shadow:0 8px 32px rgba(0,8,13,.34)}
+.practice-page .practice-opening .chapter-deck{max-width:690px;margin-left:0;color:#edf2f3}
+.practice-page .practice-opening .brass-rule.centered{margin-left:0}
+
+.perspectives-page .solution-hero{
+  position:relative;
+  isolation:isolate;
+  min-height:84svh;
+  overflow:hidden;
+  background:
+    linear-gradient(90deg,rgba(5,18,25,.97) 0%,rgba(5,18,25,.86) 46%,rgba(5,18,25,.30) 78%,rgba(5,18,25,.16) 100%),
+    linear-gradient(0deg,rgba(5,18,25,.78),rgba(5,18,25,.08) 60%),
+    url("assets/perspectives.jpg") 72% center/cover no-repeat;
+}
+.perspectives-page .solution-hero::after{
+  content:"PERSPECTIVES";
+  position:absolute;
+  right:-.04em;
+  bottom:-.15em;
+  z-index:-1;
+  color:rgba(255,255,255,.055);
+  font-family:var(--serif);
+  font-size:clamp(86px,15vw,220px);
+  line-height:.8;
+  letter-spacing:-.05em;
+}
+.perspectives-page .solution-hero h1{max-width:980px;text-wrap:balance}
+.perspectives-page .perspective-principle-grid article{border-top:2px solid rgba(177,132,61,.38)}
+
+.trust-page .trust-hero{
+  position:relative;
+  isolation:isolate;
+  min-height:84svh;
+  overflow:hidden;
+  background:
+    linear-gradient(90deg,rgba(4,18,27,.97) 0%,rgba(4,18,27,.88) 48%,rgba(4,18,27,.32) 78%,rgba(4,18,27,.16) 100%),
+    linear-gradient(0deg,rgba(4,18,27,.78),rgba(4,18,27,.06) 62%),
+    url("assets/matrix-glass-architecture-2400.webp") 62% center/cover no-repeat;
+}
+.trust-page .trust-hero::after{content:"";position:absolute;right:8vw;bottom:8vh;width:min(30vw,430px);aspect-ratio:1;border:1px solid rgba(217,166,78,.28);transform:rotate(45deg);z-index:-1}
+.trust-page .trust-hero h1{max-width:12ch;text-wrap:balance}
+.trust-page .trust-hero>div>p:last-child{max-width:720px;color:#edf2f3}
+.trust-page .trust-method-grid article{position:relative;border-top:2px solid rgba(177,132,61,.38)}
+
+@media(max-width:900px){
+  .technology-page .technology-opening{background-position:62% center}
+  .practice-page .practice-opening .chapter-opening-inner{margin-left:24px}
+}
+@media(max-width:760px){
+  .technology-page .technology-opening{background-position:69% center}
+  .how-work-page .solution-hero,.perspectives-page .solution-hero,.trust-page .trust-hero{min-height:auto;padding-top:138px}
+  .how-work-signature{grid-template-columns:repeat(2,minmax(0,1fr));gap:28px 14px}
+  .how-work-signature span{font-size:.65rem}
+  .practice-page .practice-opening{background-position:61% center}
+  .practice-page .practice-opening .chapter-opening-inner{margin-left:18px;margin-right:18px;text-align:left}
+  .perspectives-page .solution-hero{background-position:62% center}
+  .perspectives-page .solution-hero::after{font-size:25vw}
+  .trust-page .trust-hero{background-position:58% center}
+  .trust-page .trust-hero::after{right:-16vw;width:64vw}
+}
+
+/* Concept C representative detail-page patterns */
+.product-detail-page .solution-hero{
+  position:relative;
+  isolation:isolate;
+  min-height:88svh;
+  overflow:hidden;
+  background:
+    linear-gradient(90deg,rgba(4,18,27,.97) 0%,rgba(4,18,27,.88) 44%,rgba(4,18,27,.36) 74%,rgba(4,18,27,.12) 100%),
+    linear-gradient(0deg,rgba(4,18,27,.82),rgba(4,18,27,.08) 60%),
+    var(--detail-hero-image,url("assets/epson-am-c5000-lifestyle.webp")) var(--detail-hero-position,68% center)/cover no-repeat;
+}
+.product-detail-page .solution-hero::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:-1;
+  opacity:.42;
+  background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);
+  background-size:68px 68px;
+  mask-image:linear-gradient(90deg,#000,transparent 72%);
+}
+.product-detail-page .solution-hero h1{max-width:760px;text-wrap:balance;text-shadow:0 8px 32px rgba(0,8,13,.32)}
+.product-detail-page .solution-hero p{max-width:720px;color:#edf2f3}
+.product-detail-page .solution-hero+.solution-section{background:linear-gradient(135deg,#f3efe7,#e6dfd3)}
+.product-detail-page .product-family{box-shadow:0 24px 60px rgba(21,30,32,.08)}
+.product-detail-page .product-family article{position:relative;border-top:3px solid rgba(177,132,61,.45)}
+.product-detail-page .product-family article:nth-child(2){background:#efe9de}
+.product-detail-page .media-feature figure{position:relative}
+.product-detail-page .media-feature figure::before{content:"";position:absolute;inset:-12px 12px 12px -12px;border:1px solid rgba(177,132,61,.42);pointer-events:none}
+.product-detail-page .engineering-dependency-section{background:#e7e0d5}
+.product-detail-page .support-boundary-grid article{border-top:2px solid rgba(177,132,61,.42)}
+
+.scenarios-index-page .solution-hero{
+  position:relative;
+  isolation:isolate;
+  min-height:72svh;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 78% 28%,rgba(217,166,78,.17),transparent 24%),
+    radial-gradient(circle at 62% 76%,rgba(95,157,175,.14),transparent 28%),
+    linear-gradient(135deg,#061923 0%,#0c2b37 55%,#07171f 100%);
+}
+.scenarios-index-page .solution-hero::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:-1;
+  background-image:linear-gradient(rgba(185,214,221,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(185,214,221,.08) 1px,transparent 1px);
+  background-size:72px 72px;
+  mask-image:linear-gradient(90deg,transparent 0%,#000 46%,#000 100%);
+}
+.scenarios-index-page .solution-hero::after{
+  content:"08";
+  position:absolute;
+  right:5vw;
+  bottom:-.2em;
+  z-index:-1;
+  color:rgba(255,255,255,.065);
+  font-family:var(--serif);
+  font-size:clamp(210px,32vw,500px);
+  line-height:.75;
+  letter-spacing:-.08em;
+}
+.scenarios-index-page .solution-hero h1{max-width:9ch;font-size:clamp(72px,10vw,148px);text-wrap:balance}
+.scenarios-index-page .solution-hero p{max-width:700px;color:#edf2f3}
+.scenarios-index-page .association-scenario-grid{box-shadow:0 24px 60px rgba(21,30,32,.07)}
+.scenarios-index-page .association-scenario-grid article{position:relative;border-top:3px solid transparent}
+.scenarios-index-page .association-scenario-grid article:nth-child(4n+1),
+.scenarios-index-page .association-scenario-grid article:nth-child(4n+4){border-top-color:rgba(177,132,61,.5);background:#eee8dd}
+.scenarios-index-page .association-scenario-grid article>span{font-size:.68rem;font-weight:700}
+
+.support-detail-page .solution-hero{
+  position:relative;
+  isolation:isolate;
+  min-height:84svh;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 76% 34%,rgba(217,166,78,.19),transparent 24%),
+    linear-gradient(135deg,#071a23 0%,#14313a 58%,#08171d 100%);
+}
+.support-detail-page .solution-hero::before{
+  content:"";
+  position:absolute;
+  right:-9vw;
+  top:10%;
+  z-index:-1;
+  width:min(48vw,680px);
+  aspect-ratio:1;
+  border:1px solid rgba(217,166,78,.31);
+  border-radius:50%;
+  box-shadow:0 0 0 70px rgba(217,166,78,.025),0 0 0 140px rgba(217,166,78,.015);
+}
+.support-detail-page .solution-hero h1{max-width:1000px;text-wrap:balance}
+.support-detail-page .solution-hero p{max-width:700px;color:#edf2f3}
+.support-detail-page .solution-hero+.solution-section{background:linear-gradient(135deg,#f2eee6,#e4ded2)}
+.support-detail-page .solution-grid{counter-reset:support-stage;box-shadow:0 24px 60px rgba(21,30,32,.08)}
+.support-detail-page .solution-grid article{counter-increment:support-stage;position:relative;border-top:3px solid rgba(177,132,61,.45)}
+.support-detail-page .solution-grid article::before{content:counter(support-stage,decimal-leading-zero);display:block;margin-bottom:38px;color:var(--brass-dark);font-size:.68rem;font-weight:700;letter-spacing:.16em}
+.support-detail-page .solution-section.alt{background:#17272c;color:#fff}
+.support-detail-page .solution-section.alt .solution-body li{color:#d4d8d7}
+.support-detail-page .solution-section.alt .solution-body li::marker{color:#d9a64e}
+
+.brother-portfolio-page{--detail-hero-image:url("assets/brother-workhorse-office.webp");--detail-hero-position:66% center}
+.titan-detail-page{--detail-hero-image:url("assets/brother-titan-warehouse.webp");--detail-hero-position:67% center}
+.colorworks-detail-page,.label-platform-page{--detail-hero-image:url("assets/label-application-v1.webp");--detail-hero-position:66% center}
+.workgroup-detail-page{--detail-hero-image:url("assets/epson-em-c800-healthcare.webp");--detail-hero-position:64% center}
+.large-format-detail-page{--detail-hero-image:linear-gradient(135deg,#0f171b 0%,#24383f 58%,#11181b 100%);--detail-hero-position:center}
+.brother-portfolio-page .solution-hero,.titan-detail-page .solution-hero,.colorworks-detail-page .solution-hero,.large-format-detail-page .solution-hero,.label-platform-page .solution-hero,.workgroup-detail-page .solution-hero{min-height:82svh}
+.product-detail-page .solution-grid article,.product-detail-page .brand-panels article,.product-detail-page .titan-decision-grid article,.product-detail-page .colorworks-value-grid article,.product-detail-page .large-format-applications article{border-top:2px solid rgba(177,132,61,.4)}
+.product-detail-page .media-feature figure img{box-shadow:0 24px 54px rgba(13,24,28,.16)}
+
+.workflow-detail-page .solution-hero,.application-detail-page .solution-hero{
+  position:relative;
+  isolation:isolate;
+  min-height:82svh;
+  overflow:hidden;
+  background:radial-gradient(circle at 77% 28%,rgba(217,166,78,.16),transparent 24%),linear-gradient(135deg,#071a23 0%,#14313a 56%,#08171d 100%);
+}
+.workflow-detail-page .solution-hero::before,.application-detail-page .solution-hero::before{content:"";position:absolute;inset:0;z-index:-1;opacity:.5;background-image:linear-gradient(rgba(185,214,221,.085) 1px,transparent 1px),linear-gradient(90deg,rgba(185,214,221,.085) 1px,transparent 1px);background-size:72px 72px;mask-image:linear-gradient(90deg,transparent 0%,#000 42%,#000 100%)}
+.workflow-detail-page .solution-hero h1,.application-detail-page .solution-hero h1{max-width:1050px;text-wrap:balance}
+.workflow-detail-page .solution-hero p,.application-detail-page .solution-hero p{max-width:760px;color:#edf2f3}
+.workflow-detail-page .papercut-options article,.application-detail-page .modern-work-grid article,.application-detail-page .modern-capability-grid article{border-top:2px solid rgba(177,132,61,.4)}
+.application-detail-page .portfolio-diversity-section{background:#17272c;color:#fff}
+.application-detail-page .portfolio-diversity-section .section-heading-row>p,.application-detail-page .portfolio-baseline{color:#d4d8d7}
+
+html:has(link[rel="canonical"][href$="/visual-communications"]) .solution-hero{position:relative;isolation:isolate;min-height:76svh;overflow:hidden;background:linear-gradient(90deg,rgba(4,18,27,.96),rgba(4,18,27,.78) 48%,rgba(4,18,27,.24) 100%),linear-gradient(0deg,rgba(4,18,27,.76),rgba(4,18,27,.08) 60%),url("assets/visual-operations-v1.webp") 68% center/cover no-repeat}
+html:has(link[rel="canonical"][href$="/visual-communications"]) .solution-hero h1{max-width:950px;text-wrap:balance}
+html:has(link[rel="canonical"][href$="/visual-communications"]) .solution-hero p{color:#edf2f3}
+html:has(link[rel="canonical"][href$="/visual-communications"]) .solution-hero+.solution-section{background:linear-gradient(135deg,#f2eee6,#e4ded2)}
+html:has(link[rel="canonical"][href$="/visual-communications"]) .solution-grid article{border-top:2px solid rgba(177,132,61,.4)}
+
+@media(max-width:760px){
+  .product-detail-page .solution-hero,.scenarios-index-page .solution-hero,.support-detail-page .solution-hero,.workflow-detail-page .solution-hero,.application-detail-page .solution-hero,html:has(link[rel="canonical"][href$="/visual-communications"]) .solution-hero{min-height:auto;padding-top:138px}
+  .product-detail-page .solution-hero{background-position:62% center}
+  .product-detail-page .media-feature figure::before{inset:-7px 7px 7px -7px}
+  .scenarios-index-page .solution-hero h1{font-size:clamp(64px,20vw,92px)}
+  .scenarios-index-page .solution-hero::after{right:-8vw;font-size:70vw}
+  .scenarios-index-page .association-scenario-grid article{min-height:auto}
+  .support-detail-page .solution-hero::before{right:-36vw;top:22%;width:94vw}
+  .workflow-detail-page .solution-hero,.application-detail-page .solution-hero{background-position:center}
+  html:has(link[rel="canonical"][href$="/visual-communications"]) .solution-hero{background-position:62% center}
 }

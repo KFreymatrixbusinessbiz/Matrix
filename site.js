@@ -18,7 +18,10 @@
   };
 
   dots.forEach((dot, index) => {
-    dot.addEventListener("click", () => rooms[index]?.scrollIntoView({behavior:"smooth", block:"start"}));
+    dot.addEventListener("click", () => {
+      const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+      rooms[index]?.scrollIntoView({behavior:reducedMotion ? "auto" : "smooth", block:"start"});
+    });
   });
 
   if (rooms.length && "IntersectionObserver" in window) {

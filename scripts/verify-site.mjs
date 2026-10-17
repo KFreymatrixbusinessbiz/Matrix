@@ -222,6 +222,27 @@ if (/<(?:input|select|textarea)\b[^>]*(?:name|autocomplete)=["'][^"']*(?:cc-|car
   errors.push("my-account.html: page must not request card data");
 }
 
+const homepage = await readFile(path.join(root, "index.html"), "utf8");
+for (const requiredPattern of [
+  /Technology should support the work, not create more of it\./,
+  /assets\/matrix-glass-architecture-2400\.webp/,
+  /assets\/matrix-glass-architecture-1200\.webp/,
+  /<section\b[^>]*class=["'][^"']*matrix-operating-model/,
+  /Understand the work/,
+  /Define requirements/,
+  /Design the environment/,
+  /<strong>Implement<\/strong>/,
+  /<strong>Support<\/strong>/,
+  /<strong>Adapt<\/strong>/
+]) {
+  if (!requiredPattern.test(homepage)) {
+    errors.push(`index.html: missing Concept C requirement ${requiredPattern}`);
+  }
+}
+if (/—/.test(homepage)) {
+  errors.push("index.html: homepage copy must not contain em dashes");
+}
+
 const paymentScript = await readFile(path.join(root, "payment.js"), "utf8");
 if (/\.payment-utility[\s\S]*?preventDefault\(/.test(paymentScript)) {
   errors.push("payment.js: Make a Payment must navigate to /my-account without interception");
